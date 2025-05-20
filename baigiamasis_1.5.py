@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
 import datetime
-import random
 
 # --- Data Setup (10 Random Questions) ---
 questions = [
