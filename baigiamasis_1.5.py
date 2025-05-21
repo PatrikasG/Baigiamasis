@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 import datetime
 
-# --- Data Setup (10 Random Questions) ---
+# --- Duomenys: klausimai, pasirinkimai, atsakymai ---
 questions = [
     "Who won the men's singles title at the Australian Open 2024?",
     "What historic event was commemorated on its 80th anniversary in June 2024?",
@@ -31,7 +31,8 @@ options = [
 
 answers = ["D", "B", "A", "C", "A", "D", "C", "C", "C", "D"]
 
-# --- GUI Application ---
+
+# --- Pagrindinė aplikacijos klasė ---
 class QuizApp:
     def __init__(self, master):
         self.master = master
@@ -49,25 +50,38 @@ class QuizApp:
         self.score = 0
         self.user_answers = []
 
-        self.question_label = tk.Label(master, text="", wraplength=650, font=('Arial', 14), fg="white", bg="#2e2e2e")
+        self.question_label = tk.Label(
+            master, text="", wraplength=650,
+            font=('Arial', 14), fg="white", bg="#2e2e2e"
+        )
         self.question_label.pack(pady=20)
 
         self.var = tk.StringVar()
         self.radio_buttons = []
         for i in range(4):
-            rb = tk.Radiobutton(master, text="", variable=self.var, value=chr(65+i), font=('Arial', 12), fg="white",
-                                 bg="#2e2e2e", selectcolor="#444444", activebackground="#2e2e2e", activeforeground="white")
+            rb = tk.Radiobutton(
+                master, text="", variable=self.var, value=chr(65+i),
+                font=('Arial', 12), fg="white", bg="#2e2e2e",
+                selectcolor="#444444", activebackground="#2e2e2e",
+                activeforeground="white"
+            )
             rb.pack(anchor='w', padx=30)
             self.radio_buttons.append(rb)
 
         self.progress = ttk.Progressbar(master, length=500, mode='determinate')
         self.progress.pack(pady=10)
 
-        self.timer_label = tk.Label(master, text=f"Time left: {self.timer}s", font=('Arial', 12), fg="white", bg="#2e2e2e")
+        self.timer_label = tk.Label(
+            master, text=f"Time left: {self.timer}s",
+            font=('Arial', 12), fg="white", bg="#2e2e2e"
+        )
         self.timer_label.pack()
 
-        self.submit_btn = tk.Button(master, text="Submit", command=self.submit_answer, font=('Arial', 12), bg="#444444",
-                                     fg="white", activebackground="#666666")
+        self.submit_btn = tk.Button(
+            master, text="Submit", command=self.submit_answer,
+            font=('Arial', 12), bg="#444444", fg="white",
+            activebackground="#666666"
+        )
         self.submit_btn.pack(pady=20)
 
         self.load_question()
@@ -75,7 +89,9 @@ class QuizApp:
     def load_question(self):
         if self.q_index < len(questions):
             self.var.set("")
-            self.question_label.config(text=f"Q{self.q_index+1}: {questions[self.q_index]}")
+            self.question_label.config(
+                text=f"Q{self.q_index + 1}: {questions[self.q_index]}"
+            )
             for i, option in enumerate(options[self.q_index]):
                 self.radio_buttons[i].config(text=option)
             self.progress['value'] = (self.q_index / len(questions)) * 100
@@ -117,13 +133,27 @@ class QuizApp:
             widget.destroy()
 
         percent = int((self.score / len(questions)) * 100)
-        result_text = f"Quiz Complete!\n\nScore: {self.score}/{len(questions)}\nPercentage: {percent}%"
-        tk.Label(self.master, text=result_text, font=('Arial', 16), fg="white", bg="#2e2e2e").pack(pady=20)
+        result_text = (
+            f"Quiz Complete!\n\n"
+            f"Score: {self.score}/{len(questions)}\n"
+            f"Percentage: {percent}%"
+        )
+        tk.Label(
+            self.master, text=result_text, font=('Arial', 16),
+            fg="white", bg="#2e2e2e"
+        ).pack(pady=20)
 
         self.save_results(percent)
 
-        tk.Button(self.master, text="Restart Quiz", command=self.restart_quiz, font=('Arial', 12), bg="#444444", fg="white").pack(pady=10)
-        tk.Button(self.master, text="Exit", command=self.master.quit, font=('Arial', 12), bg="#444444", fg="white").pack()
+        tk.Button(
+            self.master, text="Restart Quiz", command=self.restart_quiz,
+            font=('Arial', 12), bg="#444444", fg="white"
+        ).pack(pady=10)
+
+        tk.Button(
+            self.master, text="Exit", command=self.master.quit,
+            font=('Arial', 12), bg="#444444", fg="white"
+        ).pack()
 
     def save_results(self, percent):
         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -131,8 +161,11 @@ class QuizApp:
             f.write(f"\n--- Quiz Attempt on {now} ---\n")
             f.write(f"Score: {self.score}/{len(questions)} ({percent}%)\n")
             for i, q in enumerate(questions):
-                f.write(f"Q{i+1}: {q}\nYour Answer: {self.user_answers[i]}, Correct Answer: {answers[i]}\n")
-            f.write("-"*40 + "\n")
+                f.write(
+                    f"Q{i + 1}: {q}\nYour Answer: {self.user_answers[i]}, "
+                    f"Correct Answer: {answers[i]}\n"
+                )
+            f.write("-" * 40 + "\n")
 
     def restart_quiz(self):
         self.q_index = 0
@@ -140,8 +173,10 @@ class QuizApp:
         self.user_answers = []
         self.load_question()
 
-# --- Run App ---
+
+# --- Paleidžiama aplikacija ---
 if __name__ == "__main__":
     root = tk.Tk()
     app = QuizApp(root)
     root.mainloop()
+
