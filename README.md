@@ -21,14 +21,7 @@ Tai yra Python programėlė, kuri pateikia naudotojui 10 klausimų apie svarbiau
 - Progreso juosta ir likusio laiko rodymas
 - Mygtukas „Pateikti“ ir automatinis rezultato skaičiavimas
 
----
 
-##  Paleidimas
 
-1. Įsitikinkite, kad turite įdiegtą Python (rekomenduojama 3.10 ar naujesnė versija).
-2. Atsisiųskite arba nukopijuokite `quiz_app.py` failą į savo kompiuterį.
-3. Paleiskite komandą terminale arba IDE:
 
-```bash
-python quiz_app.py
 
